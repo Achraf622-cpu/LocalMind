@@ -3,6 +3,8 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\AnswerController;
 use App\Http\Controllers\FavoriteController;
+use App\Http\Controllers\AuthController;
+
 
 // Routes pour les questions
 Route::resource('questions', QuestionController::class);
@@ -17,3 +19,9 @@ Route::delete('answers/{answer}', [AnswerController::class, 'destroy'])->name('a
 Route::post('questions/{question}/favorites', [FavoriteController::class, 'store'])->name('favorites.store');
 Route::delete('questions/{question}/favorites', [FavoriteController::class, 'destroy'])->name('favorites.destroy');
 Route::get('favorites', [FavoriteController::class, 'index'])->name('favorites.index');
+
+Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+
