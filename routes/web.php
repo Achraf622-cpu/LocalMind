@@ -1,12 +1,12 @@
 <?php
-
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\AnswerController;
 use App\Http\Controllers\FavoriteController;
 
 // Routes pour les questions
 Route::resource('questions', QuestionController::class);
-
+Route::get('/', [HomeController::class, 'index'])->name('home');
 // Routes pour les réponses (uniquement les actions nécessaires)
 Route::post('questions/{question}/answers', [AnswerController::class, 'store'])->name('answers.store');
 Route::get('answers/{answer}/edit', [AnswerController::class, 'edit'])->name('answers.edit');
