@@ -19,9 +19,18 @@
                 <a href="#" class="text-gray-600 hover:text-indigo-600">Accueil</a>
                 <a href="#" class="text-gray-600 hover:text-indigo-600">Services</a>
                 <a href="#" class="text-gray-600 hover:text-indigo-600">Contact</a>
-                <button class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition">
-                    Connexion
-                </button>
+                @auth
+                    <form method="POST" action="{{ route('logout') }}" class="inline">
+                        @csrf
+                        <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition">
+                            Déconnexion
+                        </button>
+                    </form>
+                @else
+                    <a href="{{ route('login') }}" class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition">
+                        Connexion
+                    </a>
+                @endauth
             </div>
         </div>
     </div>
