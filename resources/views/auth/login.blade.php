@@ -51,7 +51,7 @@
 
         <p class="mt-4 text-center text-sm text-gray-600">
             Pas encore de compte ?
-            <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500">S'inscrire</a>
+            <a href="{{ route('register') }}" class="font-medium text-indigo-600 hover:text-indigo-500">S'inscrire</a>
         </p>
     </div>
 </div>

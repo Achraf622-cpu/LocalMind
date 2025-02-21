@@ -8,16 +8,12 @@ use Illuminate\Http\Request;
 
 class AnswerController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
 
     public function store(Request $request, Question $question)
     {
-        $validated = $request->validate([
-            'content' => 'required|min:10'
-        ]);
+        if (!auth()->check()) {
+            return redirect()->route('login');
+        }
 
         $question->answers()->create([
             'content' => $validated['content'],
@@ -29,8 +25,10 @@ class AnswerController extends Controller
 
     public function edit(Answer $answer)
     {
+        if (!auth()->check()) {
+            return redirect()->route('login');
+        }
         $this->authorize('update', $answer);
-        return view('answers.edit', compact('answer'));
     }
 
     public function update(Request $request, Answer $answer)

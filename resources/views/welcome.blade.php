@@ -16,10 +16,10 @@
                 <span class="text-2xl font-bold text-indigo-600">LocalMind</span>
             </div>
             <div class="flex items-center space-x-4">
-                <a href="#" class="text-gray-600 hover:text-indigo-600">Accueil</a>
-                <a href="#" class="text-gray-600 hover:text-indigo-600">Services</a>
-                <a href="#" class="text-gray-600 hover:text-indigo-600">Contact</a>
+                <a href="{{ route('home') }}" class="text-gray-600 hover:text-indigo-600">Accueil</a>
+                <a href="{{ route('questions.index') }}" class="text-gray-600 hover:text-indigo-600">Questions</a>
                 @auth
+                    <a href="{{ route('favorites.index') }}" class="text-gray-600 hover:text-indigo-600">Mes Favoris</a>
                     <form method="POST" action="{{ route('logout') }}" class="inline">
                         @csrf
                         <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition">
@@ -48,9 +48,9 @@
                 Trouvez les meilleures opportunités près de chez vous.
             </p>
             <div class="flex justify-center gap-4 mt-8">
-                <button class="bg-indigo-600 text-white px-8 py-3 rounded-lg hover:bg-indigo-700 transition shadow-lg">
+                <a href="{{ route('questions.index') }}" class="bg-indigo-600 text-white px-8 py-3 rounded-lg hover:bg-indigo-700 transition shadow-lg">
                     Commencer
-                </button>
+                </a>
                 <button class="bg-white text-indigo-600 px-8 py-3 rounded-lg hover:bg-gray-50 transition shadow-lg border border-indigo-600">
                     En savoir plus
                 </button>
