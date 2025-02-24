@@ -17,14 +17,14 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Routes de questions (publiques)
+Route::post('questions/{question}/answers', [AnswerController::class, 'store'])->name('answers.store');
 Route::get('/questions', [QuestionController::class, 'index'])->name('questions.index');
-Route::get('/questions/{question}', [QuestionController::class, 'show'])->name('questions.show');
-
-// Routes protégées (à vérifier dans le contrôleur)
+Route::get('/questions/create', [QuestionController::class, 'create'])->name('questions.create');
 Route::post('/questions', [QuestionController::class, 'store'])->name('questions.store');
+Route::get('/questions/{question}', [QuestionController::class, 'show'])->name('questions.show');
 Route::get('/questions/{question}/edit', [QuestionController::class, 'edit'])->name('questions.edit');
 Route::put('/questions/{question}', [QuestionController::class, 'update'])->name('questions.update');
-Route::delete('/questions/{question}', [QuestionController::class, 'destroy'])->name('questions.delete');
+Route::delete('/questions/{question}', [QuestionController::class, 'destroy'])->name('questions.destroy');
 
 // Routes des utilisateurs
 Route::resource('users', UserController::class);

@@ -6,6 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class Question extends Model
 {
+    protected $perPage = 10;
+
+    protected $casts = [
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+    ];
+
+    // Éviter le chargement automatique des relations
+    protected $with = [];
+
     protected $fillable = [
         'title',
         'content',

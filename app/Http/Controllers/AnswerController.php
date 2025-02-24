@@ -11,18 +11,18 @@ class AnswerController extends Controller
 
     public function store(Request $request, Question $question)
     {
-        if (!auth()->check()) {
-            return redirect()->route('login');
-        }
-
-        $question->answers()->create([
-            'content' => $validated['content'],
-            'user_id' => auth()->id()
+        $validatedData = $request->validate([
+            'content' => 'required|min:10',
         ]);
 
-        return back()->with('success', 'Réponse publiée avec succès !');
-    }
+        $answer = $question->answers()->create([
+            'content' => $validatedData['content'],
+            'user_id' => auth()->id(),
+        ]);
 
+        return redirect()->route('questions.show', $question)
+            ->with('success', 'Votre réponse a été publiée avec succès.');
+    }
     public function edit(Answer $answer)
     {
         if (!auth()->check()) {

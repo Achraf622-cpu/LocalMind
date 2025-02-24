@@ -14,7 +14,11 @@ class QuestionController extends Controller
 
     public function index()
     {
-        $questions = Question::with('user')->latest()->paginate(10);
+        $questions = Question::select('id', 'title', 'user_id', 'created_at')  // Sélectionnez uniquement les champs nécessaires
+        ->with(['user:id,name'])  // Chargement minimal des relations
+        ->latest()
+            ->simplePaginate(10);  // Utilisation de simplePaginate au lieu de paginate
+
         return view('questions.index', compact('questions'));
     }
 
@@ -42,13 +46,11 @@ class QuestionController extends Controller
 
     public function edit(Question $question)
     {
-        $this->authorize('update', $question);
         return view('questions.edit', compact('question'));
     }
 
     public function update(Request $request, Question $question)
     {
-        $this->authorize('update', $question);
 
         $validated = $request->validate([
             'title' => 'required|min:5|max:255',
@@ -62,8 +64,6 @@ class QuestionController extends Controller
 
     public function destroy(Question $question)
     {
-        $this->authorize('delete', $question);
-
         $question->delete();
         return redirect()->route('questions.index')
             ->with('success', 'Question supprimée avec succès !');

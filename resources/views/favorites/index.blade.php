@@ -1,43 +1,67 @@
-<x-app-layout>
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <h1 class="text-2xl font-semibold text-gray-900 mb-6">Mes Questions Favorites</h1>
+@extends('layouts.app')
 
-            @if($favorites->count())
-                @foreach($favorites as $question)
-                    <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-4">
-                        <div class="p-6 bg-white border-b border-gray-200">
-                            <div class="flex justify-between items-start">
-                                <div>
-                                    <h2 class="text-xl font-bold mb-2">
-                                        <a href="{{ route('questions.show', $question) }}" class="text-blue-600 hover:text-blue-800">
-                                            {{ $question->title }}
-                                        </a>
-                                    </h2>
-                                    <p class="text-gray-600 text-sm">
-                                        Posée par {{ $question->user->name }} | {{ $question->created_at->diffForHumans() }}
-                                    </p>
-                                </div>
-                                <form action="{{ route('favorites.destroy', $question) }}" method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit"
-                                            class="text-red-500 hover:text-red-700"
-                                            onclick="return confirm('Retirer des favoris ?')">
-                                        Retirer des favoris
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
+@section('content')
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-primary text-white">
+                        <h2 class="mb-0 h4">Mes Questions Favorites</h2>
                     </div>
-                @endforeach
 
-                <div class="mt-4">
-                    {{ $favorites->links() }}
+                    <div class="card-body">
+                        @if($favorites->count() > 0)
+                            @foreach($favorites as $favorite)
+                                @if($favorite->question)
+                                    <div class="question-card mb-4">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <h5 class="mb-1">
+                                                <a href="{{ route('questions.show', $favorite->question->id) }}"
+                                                   class="text-decoration-none text-primary">
+                                                    {{ $favorite->question->title }}
+                                                </a>
+                                            </h5>
+                                            <small class="text-muted">
+                                                Ajoutée le {{ $favorite->created_at->format('d/m/Y') }}
+                                            </small>
+                                        </div>
+                                        <p class="text-muted mb-2">
+                                            {{ Str::limit($favorite->question->content, 200) }}
+                                        </p>
+                                        <div class="d-flex justify-content-end">
+                                            <form action="{{ route('favorites.destroy', $favorite->question) }}"
+                                                  method="POST"
+                                                  class="d-inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit"
+                                                        class="btn btn-outline-danger btn-sm">
+                                                    Retirer des favoris
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    @if(!$loop->last)
+                                        <hr class="my-4">
+                                    @endif
+                                @endif
+                            @endforeach
+
+                            <div class="d-flex justify-content-center mt-4">
+                                {{ $favorites->links() }}
+                            </div>
+                        @else
+                            <div class="text-center py-4">
+                                <p class="text-muted mb-0">Vous n'avez pas encore de questions favorites.</p>
+                                <a href="{{ route('questions.index') }}"
+                                   class="btn btn-primary mt-3">
+                                    Parcourir les questions
+                                </a>
+                            </div>
+                        @endif
+                    </div>
                 </div>
-            @else
-                <p class="text-gray-600">Vous n'avez pas encore de questions favorites.</p>
-            @endif
+            </div>
         </div>
     </div>
-</x-app-layout>
+@endsection

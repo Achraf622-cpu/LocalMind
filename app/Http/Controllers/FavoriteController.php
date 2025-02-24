@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Question;
+use App\Models\Favorite;
 use Illuminate\Http\Request;
 
 class FavoriteController extends Controller
@@ -32,7 +33,7 @@ class FavoriteController extends Controller
 
     public function index()
     {
-        $favorites = auth()->user()->favoriteQuestions()->paginate(10);
+        $favorites = auth()->user()->favorites()->paginate(10);
         return view('favorites.index', compact('favorites'));
     }
 }

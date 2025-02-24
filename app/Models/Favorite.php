@@ -22,4 +22,14 @@ class Favorite extends Model
     {
         return $this->belongsTo(User::class);
     }
+    public function favorites()
+    {
+        return $this->hasMany(Favorite::class);
+    }
+
+    public function hasFavorited(Question $question)
+    {
+        return $this->favorites()->where('question_id', $question->id)->exists();
+    }
+
 }
