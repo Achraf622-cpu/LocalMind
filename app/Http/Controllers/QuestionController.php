@@ -29,6 +29,7 @@ class QuestionController extends Controller
 
     public function store(Request $request)
     {
+
         $validated = $request->validate([
             'title' => 'required|min:5|max:255',
             'content' => 'required|min:10'
@@ -46,20 +47,23 @@ class QuestionController extends Controller
 
     public function edit(Question $question)
     {
+        $this->authorize('update', $question);
         return view('questions.edit', compact('question'));
     }
 
     public function update(Request $request, Question $question)
     {
+        $this->authorize('update', $question);
 
-        $validated = $request->validate([
+        $validatedData = $request->validate([
             'title' => 'required|min:5|max:255',
-            'content' => 'required|min:10'
+            'content' => 'required|min:10',
         ]);
 
-        $question->update($validated);
+        $question->update($validatedData);
+
         return redirect()->route('questions.show', $question)
-            ->with('success', 'Question mise à jour avec succès !');
+            ->with('success', 'Question mise à jour avec succès');
     }
 
     public function destroy(Question $question)
